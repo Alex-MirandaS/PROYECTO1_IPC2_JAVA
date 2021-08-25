@@ -5,17 +5,22 @@
  */
 package ClasesPredeterminadas;
 
+import PRUEBAS.Prueba;
+
 /**
  *
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Alex
  */
-public class PROGBASEDEDATOS {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Conexion con = new Conexion();
+        
+        Prueba prueba = new Prueba();
+
     }
     
 }

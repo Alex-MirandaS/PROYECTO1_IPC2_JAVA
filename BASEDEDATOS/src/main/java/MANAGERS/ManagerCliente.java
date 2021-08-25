@@ -6,7 +6,8 @@
 package MANAGERS;
 
 import CLASES.Cliente;
-import com.mysql.cj.xdevapi.PreparableStatement;
+import ClasesPredeterminadas.Conexion;
+import Enums.ClienteEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,19 +22,24 @@ import java.util.logging.Logger;
  */
 public class ManagerCliente {
 
-    private Cliente cliente;
     private Connection conexion;
     // QUERYS   
-    private String insertarCliente = "INSERT INTO Cliente VALUES(?,?,?)";
+    private String insertarCliente = "INSERT INTO Cliente (NIT, Direccion, Nombre_Cliente) VALUES(?,?,?)";
     private String borrarCliente = "DELETE FROM Cliente WHERE NIT = ?";
+    private String seleccionarCliente = "SELECT * FROM Cliente WHERE NIT = ?";
     private String seleccionarTodo = "SELECT * FROM Cliente";
-    //UPDATE
-    //INSERT
-    //DELETE
-    //SELECT
+    private String updateNIT = "UPDATE Cliente SET NIT = ? WHERE NIT = ?";
+    private String updateNombre = "UPDATE Cliente SET Nombre_Cliente = ? WHERE NIT = ?";
+    private String updateDireccion = "UPDATE Cliente SET Direccion = ? WHERE NIT = ?";
 
-    public ManagerCliente(Cliente cliente) {
-        this.cliente = cliente;
+    //UPDATE
+//request es la info de la pagina web que obtuvimos
+    //<%bloque de codigo java%>
+    //<%= solo una linea de codigo, sin necesidad de cerrar con ';' %>
+    //request es la otra pagina
+    //Servlet es un .java con codigo html
+    public ManagerCliente() {
+        this.conexion = Conexion.getConnection();
     }
 
     public void insertarCliente(int nit, String nombre, String direccion) {
@@ -41,8 +47,47 @@ public class ManagerCliente {
         try {
             PreparedStatement ps = conexion.prepareStatement(insertarCliente);
             ps.setInt(1, nit);
-            ps.setString(2, nombre);
-            ps.setString(3, direccion);
+            ps.setString(3, nombre);
+            ps.setString(2, direccion);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void borrarCliente(int nit) {
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(borrarCliente);
+            ps.setInt(1, nit);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateCliente(int nit, String datoCambiado, ClienteEnum tipoCambio) {
+
+        try {
+            PreparedStatement ps = null;
+
+            switch (tipoCambio) {
+                case NIT:
+                    ps = conexion.prepareStatement(updateNIT);
+                    ps.setInt(1, Integer.parseInt(datoCambiado));
+                    ps.setInt(2, nit);
+                    break;
+                case Nombre_Cliente:
+                    ps = conexion.prepareStatement(updateNombre);
+                    ps.setString(1, datoCambiado);
+                    ps.setInt(2, nit);
+                    break;
+                case Direccion:
+                    ps = conexion.prepareStatement(updateDireccion);
+                    ps.setString(1, datoCambiado);
+                    ps.setInt(2, nit);
+                    break;
+            }
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,13 +97,13 @@ public class ManagerCliente {
     public ArrayList<Cliente> seleccionarTodo() {
         ArrayList<Cliente> clientes = new ArrayList<>();
         try {
-            PreparedStatement ps = conexion.prepareStatement(insertarCliente);
+            PreparedStatement ps = conexion.prepareStatement(seleccionarTodo);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String nit = rs.getString("NIT");
+                int nit = rs.getInt("NIT");
                 String nombre = rs.getString("Nombre_Cliente");
                 String direccion = rs.getString("Direccion");
-                Cliente cliente = new Cliente(nit, nombre, direccion);
+                Cliente cliente = new Cliente(nombre, nit, direccion);
                 clientes.add(cliente);
             }
 
@@ -66,6 +111,26 @@ public class ManagerCliente {
             Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         return clientes;
+    }
+
+    public Cliente seleccionarCliente(int nit) {
+        Cliente cliente = null;
+        try {
+
+            PreparedStatement ps = conexion.prepareStatement(seleccionarCliente);
+            ps.setInt(1, nit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String nombre = rs.getString("Nombre_Cliente");
+                String direccion = rs.getString("Direccion");
+                cliente = new Cliente(nombre, nit, direccion);
+                break;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cliente;
     }
 
 }

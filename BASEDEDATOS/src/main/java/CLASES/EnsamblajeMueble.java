@@ -5,6 +5,7 @@
  */
 package CLASES;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 /**
@@ -14,13 +15,13 @@ import java.time.LocalDate;
 public class EnsamblajeMueble {
 
     private String idEnsamblajeMueble;
-    private LocalDate fechaEnsamblaje;
+    private Date fechaEnsamblaje;
     private String ensamblador;
     private double costoEnsamblaje;
     private SalaVenta sala;
     private Mueble mueble;
 
-    public EnsamblajeMueble(String idEnsamblajeMueble, LocalDate fechaEnsamblaje, String ensamblador, double costoEnsamblaje, SalaVenta sala, Mueble mueble) {
+    public EnsamblajeMueble(String idEnsamblajeMueble, Date fechaEnsamblaje, String ensamblador, double costoEnsamblaje, SalaVenta sala, Mueble mueble) {
         this.idEnsamblajeMueble = idEnsamblajeMueble;
         this.fechaEnsamblaje = fechaEnsamblaje;
         this.ensamblador = ensamblador;
@@ -37,11 +38,11 @@ public class EnsamblajeMueble {
         this.idEnsamblajeMueble = idEnsamblajeMueble;
     }
 
-    public LocalDate getFechaEnsamblaje() {
+    public Date getFechaEnsamblaje() {
         return fechaEnsamblaje;
     }
 
-    public void setFechaEnsamblaje(LocalDate fechaEnsamblaje) {
+    public void setFechaEnsamblaje(Date fechaEnsamblaje) {
         this.fechaEnsamblaje = fechaEnsamblaje;
     }
 

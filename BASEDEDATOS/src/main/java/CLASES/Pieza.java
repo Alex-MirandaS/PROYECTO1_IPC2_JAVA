@@ -13,11 +13,11 @@ package CLASES;
 public class Pieza {
 
     private double costoUnitario;
-    private String idPieza;
+    private int idPieza;
     private int cantidad;
     private Tipo tipo;
 
-    public Pieza(double costoUnitario, String idPieza, int cantidad, Tipo tipo) {
+    public Pieza(double costoUnitario, int idPieza, int cantidad, Tipo tipo) {
         this.costoUnitario = costoUnitario;
         this.idPieza = idPieza;
         this.cantidad = cantidad;
@@ -32,11 +32,11 @@ public class Pieza {
         this.costoUnitario = costoUnitario;
     }
 
-    public String getIdPieza() {
+    public int getIdPieza() {
         return idPieza;
     }
 
-    public void setIdPieza(String idPieza) {
+    public void setIdPieza(int idPieza) {
         this.idPieza = idPieza;
     }
 

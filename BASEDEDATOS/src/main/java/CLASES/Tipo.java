@@ -12,19 +12,19 @@ package CLASES;
  */
 public class Tipo {
 
-    private String idTipoPieza;
+    private int idTipoPieza;
     private String nombre;
 
-    public Tipo(String idTipoPieza, String nombre) {
+    public Tipo(int idTipoPieza, String nombre) {
         this.idTipoPieza = idTipoPieza;
         this.nombre = nombre;
     }
 
-    public String getIdTipoPieza() {
+    public int getIdTipoPieza() {
         return idTipoPieza;
     }
 
-    public void setIdTipoPieza(String idTipoPieza) {
+    public void setIdTipoPieza(int idTipoPieza) {
         this.idTipoPieza = idTipoPieza;
     }
 

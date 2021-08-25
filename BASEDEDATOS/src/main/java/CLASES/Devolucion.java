@@ -6,6 +6,7 @@
 
 package CLASES;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 /**
@@ -15,14 +16,14 @@ import java.time.LocalDate;
 public class Devolucion {
 
     private String idDevolucion;
-    private LocalDate fechaDevolucion;
+    private Date fechaDevolucion;
     private double dineroDevuelto;
     private double perdidaDinero;
     private Cliente cliente;
     private Caja caja;
     private Factura factura;
 
-    public Devolucion(String idDevolucion, LocalDate fechaDevolucion, double dineroDevuelto, double perdidaDinero, Cliente cliente, Caja caja, Factura factura) {
+    public Devolucion(String idDevolucion, Date fechaDevolucion, double dineroDevuelto, double perdidaDinero, Cliente cliente, Caja caja, Factura factura) {
         this.idDevolucion = idDevolucion;
         this.fechaDevolucion = fechaDevolucion;
         this.dineroDevuelto = dineroDevuelto;
@@ -40,13 +41,14 @@ public class Devolucion {
         this.idDevolucion = idDevolucion;
     }
 
-    public LocalDate getFechaDevolucion() {
+    public Date getFechaDevolucion() {
         return fechaDevolucion;
     }
 
-    public void setFechaDevolucion(LocalDate fechaDevolucion) {
+    public void setFechaDevolucion(Date fechaDevolucion) {
         this.fechaDevolucion = fechaDevolucion;
     }
+
 
     public double getDineroDevuelto() {
         return dineroDevuelto;

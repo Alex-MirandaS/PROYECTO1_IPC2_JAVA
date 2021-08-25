@@ -11,13 +11,13 @@ package CLASES;
  */
 public class Cliente {
 
-    private String NIT;
+    private int NIT;
     private String nombre;
     private String direccion;
     private String municipio;
     private String departamento;
 
-    public Cliente(String nombre, String NIT, String direccion) {
+    public Cliente(String nombre, int NIT, String direccion) {
         this.NIT = NIT;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -26,7 +26,7 @@ public class Cliente {
         
     }
 
-    public Cliente(String nombre, String NIT, String direccion, String municipio, String departamento) {
+    public Cliente(String nombre, int NIT, String direccion, String municipio, String departamento) {
         this.NIT = NIT;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -50,11 +50,11 @@ public class Cliente {
         this.departamento = departamento;
     }
 
-    public String getNIT() {
+    public int getNIT() {
         return NIT;
     }
 
-    public void setNIT(String NIT) {
+    public void setNIT(int NIT) {
         this.NIT = NIT;
     }
 

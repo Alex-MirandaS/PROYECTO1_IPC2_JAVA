@@ -3,25 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package CLASES;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 /**
- * 
+ *
  * @author Alex
  */
 public class Venta {
-public String idVenta;
-public LocalDate fechaVenta;
-public double precioMuebleVendido;
-public Cliente cliente;
-public Caja caja;
-public Factura factura;
-public SalaVenta salaVenta;
 
-    public Venta(String idVenta, LocalDate fechaVenta, double precioMuebleVendido, Cliente cliente, Caja caja, Factura factura, SalaVenta salaVenta) {
+    public String idVenta;
+    public Date fechaVenta;
+    public double precioMuebleVendido;
+    public Cliente cliente;
+    public Caja caja;
+    public Factura factura;
+    public SalaVenta salaVenta;
+
+    public Venta(String idVenta, Date fechaVenta, double precioMuebleVendido, Cliente cliente, Caja caja, Factura factura, SalaVenta salaVenta) {
         this.idVenta = idVenta;
         this.fechaVenta = fechaVenta;
         this.precioMuebleVendido = precioMuebleVendido;
@@ -39,11 +40,11 @@ public SalaVenta salaVenta;
         this.idVenta = idVenta;
     }
 
-    public LocalDate getFechaVenta() {
+    public Date getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(LocalDate fechaVenta) {
+    public void setFechaVenta(Date fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 
@@ -86,7 +87,5 @@ public SalaVenta salaVenta;
     public void setSalaVenta(SalaVenta salaVenta) {
         this.salaVenta = salaVenta;
     }
-
-
 
 }

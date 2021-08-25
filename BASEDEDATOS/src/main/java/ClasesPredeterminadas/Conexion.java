@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
  */
 public class Conexion {
 
-    Connection Conexion = null;
+    public static Connection Conexion = null;
     public Conexion(){
-        
+        conectar();
     }
     public int conectar() {
         try{
@@ -106,7 +106,7 @@ public class Conexion {
         return 0;
     }
     
-    public Connection getConnection(){
+    public static Connection getConnection(){
         return Conexion;
     }
 }
