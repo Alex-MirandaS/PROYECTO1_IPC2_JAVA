@@ -5,9 +5,11 @@
  */
 package MANAGERS;
 
+import CLASES.EnsamblajePieza;
 import CLASES.Mueble;
+import CLASES.Tipo;
 import ClasesPredeterminadas.Conexion;
-import Enums.MuebleEnum;
+import Enums.EnsamblajePiezasEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,55 +26,67 @@ public class ManagerEnsamblajePieza {
 
     private Connection conexion;
     // QUERYS   
-    private String insertarMueble = "INSERT INTO Mueble (Precio_Venta, Nombre_Mueble) VALUES(?,?)";
-    private String borrarMueble = "DELETE FROM Mueble WHERE Id_Mueble = ?";
-    private String seleccionarMueble = "SELECT * FROM Mueble WHERE Id_Mueble = ?";
-    private String seleccionarTodo = "SELECT * FROM Mueble";
-    private String updatePrecioVenta = "UPDATE Mueble SET Precio_Venta = ? WHERE Id_Mueble = ?";
-    private String updateNombreMueble = "UPDATE Mueble SET Nombre_Mueble = ? WHERE Id_Mueble = ?";
+    private String insertarEnsamPieza = "INSERT INTO Ensamblaje_Piezas(Cantidad_Piezas, Pieza, Mueble) VALUES(?,?,?)";
+    private String borrarEnsamPieza = "DELETE FROM Ensamblaje_Piezas WHERE Id_Ensamblaje_Pieza = ?";
+    private String seleccionarEnsamPieza = "SELECT * FROM Ensamblaje_Piezas WHERE Id_Ensamblaje_Pieza = ?";
+    private String seleccionarTodo = "SELECT * FROM Ensamblaje_Piezas";
+    private String seleccionarTipoPieza = "SELECT * FROM Ensamblaje_Piezas WHERE Pieza = ?";
+    private String seleccionarMueble = "SELECT * FROM Ensamblaje_Piezas WHERE Mueble = ?";
+    private String updateCantidadPiezas = "UPDATE Ensamblaje_Piezas SET Cantidad_Piezas = ? WHERE Id_Ensamblaje_Pieza = ?";
+    private String updatePieza = "UPDATE Ensamblaje_Piezas SET Pieza = ? WHERE Id_Ensamblaje_Pieza = ?";
+    private String updateMueble = "UPDATE Ensamblaje_Piezas SET Mueble = ? WHERE Id_Ensamblaje_Pieza = ?";
+//Managers
+    ManagerTipoPieza managerTipoPieza = new ManagerTipoPieza();
+    ManagerMueble managerMueble = new ManagerMueble();
 
     public ManagerEnsamblajePieza() {
         this.conexion = Conexion.getConnection();
     }
 
-    public void insertarMueble(double precioVenta, String nombreMueble) {
+    public void insertarEnsamblajePieza(int cantidadPiezas, int idPieza, int idMueble) {
 
         try {
-            PreparedStatement ps = conexion.prepareStatement(insertarMueble);
-            ps.setDouble(1, precioVenta);
-            ps.setString(2, nombreMueble);
+            PreparedStatement ps = conexion.prepareStatement(insertarEnsamPieza);
+            ps.setInt(1, cantidadPiezas);
+            ps.setInt(2, idPieza);
+            ps.setInt(3, idMueble);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerEnsamblajePieza.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void borrarMueble(int id_Mueble) {
+    public void borrarEnsamblajePieza(int Id_Ensamblaje_Pieza) {
 
         try {
-            PreparedStatement ps = conexion.prepareStatement(borrarMueble);
-            ps.setInt(1, id_Mueble);
+            PreparedStatement ps = conexion.prepareStatement(borrarEnsamPieza);
+            ps.setInt(1, Id_Ensamblaje_Pieza);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerEnsamblajePieza.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void updateMueble(int id_Mueble, String datoCambiado, MuebleEnum tipoCambio) {
+    public void updateEnsamblajePieza(int idEnsamblajePieza, String datoCambiado, EnsamblajePiezasEnum tipoCambio) {
 
         try {
             PreparedStatement ps = null;
 
             switch (tipoCambio) {
-                case PrecioVenta:
-                    ps = conexion.prepareStatement(updatePrecioVenta);
-                    ps.setDouble(1, Double.parseDouble(datoCambiado));
-                    ps.setInt(2, id_Mueble);
+                case Cantidad_Piezas:
+                    ps = conexion.prepareStatement(updateCantidadPiezas);
+                    ps.setInt(1, Integer.parseInt(datoCambiado));
+                    ps.setInt(2, idEnsamblajePieza);
                     break;
-                case NombreMueble:
-                    ps = conexion.prepareStatement(updateNombreMueble);
-                    ps.setString(1, datoCambiado);
-                    ps.setInt(2, id_Mueble);
+                case Pieza:
+                    ps = conexion.prepareStatement(updatePieza);
+                    ps.setInt(1, Integer.parseInt(datoCambiado));
+                    ps.setInt(2, idEnsamblajePieza);
+                    break;
+                case Mueble:
+                    ps = conexion.prepareStatement(updateMueble);
+                    ps.setInt(1, Integer.parseInt(datoCambiado));
+                    ps.setInt(2, idEnsamblajePieza);
                     break;
             }
             ps.executeUpdate();
@@ -81,43 +95,88 @@ public class ManagerEnsamblajePieza {
         }
     }
 
-    public ArrayList<Mueble> seleccionarTodo() {
-        ArrayList<Mueble> muebles = new ArrayList<>();
+    public ArrayList<EnsamblajePieza> seleccionarTodo() {
+        ArrayList<EnsamblajePieza> ensamblajePiezas = new ArrayList<>();
         try {
             PreparedStatement ps = conexion.prepareStatement(seleccionarTodo);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int idMueble = rs.getInt("Id_Mueble");
-                double precioVenta = rs.getDouble("Precio_Venta");
-                String nombreMueble = rs.getString("Nombre_Mueble");
-                muebles.add(new Mueble(idMueble, precioVenta, nombreMueble));
+                int idEnsamblajePieza = rs.getInt("Id_Ensamblaje_Pieza");
+                int cantidad = rs.getInt("Cantidad_Piezas");
+                int idTipoPieza = rs.getInt("Pieza");
+                int idTipoMueble = rs.getInt("Mueble");
+
+                ensamblajePiezas.add(new EnsamblajePieza(idEnsamblajePieza, cantidad, managerTipoPieza.seleccionarTipoPieza(idTipoPieza), managerMueble.seleccionarMueble(idTipoMueble)));
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerEnsamblajePieza.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return muebles;
+        return ensamblajePiezas;
     }
 
-    public Mueble seleccionarMueble(int id_Mueble) {
-        Mueble mueble = null;
+    public ArrayList<EnsamblajePieza> seleccionarTipoPieza(int idTipoPieza) {
+        ArrayList<EnsamblajePieza> ensamblajePiezas = new ArrayList<>();
+        Tipo tipo = managerTipoPieza.seleccionarTipoPieza(idTipoPieza);
         try {
+            PreparedStatement ps = conexion.prepareStatement(seleccionarTipoPieza);
+            ps.setInt(1, idTipoPieza);
+            ResultSet rs = ps.executeQuery();
 
+            while (rs.next()) {
+                int idEnsamblajePieza = rs.getInt("Id_Ensamblaje_Pieza");
+                int cantidad = rs.getInt("Cantidad_Piezas");
+                int idTipoMueble = rs.getInt("Mueble");
+                ensamblajePiezas.add(new EnsamblajePieza(idEnsamblajePieza, cantidad, tipo, managerMueble.seleccionarMueble(idTipoMueble)));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerEnsamblajePieza.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ensamblajePiezas;
+    }
+
+    public ArrayList<EnsamblajePieza> seleccionarMueble(int idMueble) {
+        ArrayList<EnsamblajePieza> ensamblajePiezas = new ArrayList<>();
+        Mueble mueble = managerMueble.seleccionarMueble(idMueble);
+        try {
             PreparedStatement ps = conexion.prepareStatement(seleccionarMueble);
-            ps.setInt(1, id_Mueble);
+            ps.setInt(1, idMueble);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int idMueble = rs.getInt("Id_Mueble");
-                double precioVenta = rs.getDouble("Precio_Venta");
-                String nombreMueble = rs.getString("Nombre_Mueble");
-                mueble = new Mueble(idMueble, precioVenta, nombreMueble);
+                int idEnsamblajePieza = rs.getInt("Id_Ensamblaje_Pieza");
+                int cantidad = rs.getInt("Cantidad_Piezas");
+                int idTipoPieza = rs.getInt("Pieza");
+
+                ensamblajePiezas.add(new EnsamblajePieza(idEnsamblajePieza, cantidad, managerTipoPieza.seleccionarTipoPieza(idTipoPieza), mueble));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerEnsamblajePieza.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ensamblajePiezas;
+    }
+
+    public EnsamblajePieza seleccionarEnsamblajePieza(int idEnsamblajePieza) {
+        EnsamblajePieza ensam = null;
+        try {
+
+            PreparedStatement ps = conexion.prepareStatement(seleccionarEnsamPieza);
+            ps.setInt(1, idEnsamblajePieza);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idEnsamblajePieza1 = rs.getInt("Id_Ensamblaje_Pieza");
+                int cantidad = rs.getInt("Cantidad_Piezas");
+                int idTipoPieza = rs.getInt("Pieza");
+                int idTipoMueble = rs.getInt("Mueble");
+                ensam = new EnsamblajePieza(idEnsamblajePieza1, cantidad, managerTipoPieza.seleccionarTipoPieza(idTipoPieza), managerMueble.seleccionarMueble(idTipoMueble));
                 break;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerEnsamblajePieza.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return mueble;
+        return ensam;
     }
 
 }

@@ -26,6 +26,7 @@ public class ManagerTipoPieza {
     private String insertarTipoPieza = "INSERT INTO Tipo (Nombre) VALUES(?)";
     private String borrarTipoPieza = "DELETE FROM Tipo WHERE Id_Tipo_Pieza = ?";
     private String seleccionarTipoPieza = "SELECT * FROM Tipo WHERE Id_Tipo_Pieza = ?";
+    private String seleccionarTipoPiezaNombre = "SELECT * FROM Tipo WHERE Nombre = ?";
     private String seleccionarTodo = "SELECT * FROM Tipo";
     private String updateNombre = "UPDATE Cliente SET Nombre = ? WHERE Id_Tipo_Pieza = ?";
 
@@ -101,6 +102,25 @@ public class ManagerTipoPieza {
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pieza;
+    }
+
+    public Tipo seleccionarTipoPiezaNombre(String nombre) {
+        Tipo pieza = null;
+        try {
+
+            PreparedStatement ps = conexion.prepareStatement(seleccionarTipoPiezaNombre);
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id_Tipo_Pieza = rs.getInt("Id_Tipo_Pieza");
+                pieza = new Tipo(id_Tipo_Pieza, nombre);
+                break;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerMueble.class.getName()).log(Level.SEVERE, null, ex);
         }
         return pieza;
     }

@@ -100,7 +100,7 @@ public class ManagerCliente {
             PreparedStatement ps = conexion.prepareStatement(seleccionarTodo);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int nit = rs.getInt("NIT");
+                String nit = rs.getString("NIT");
                 String nombre = rs.getString("Nombre_Cliente");
                 String direccion = rs.getString("Direccion");
                 Cliente cliente = new Cliente(nombre, nit, direccion);
@@ -113,12 +113,12 @@ public class ManagerCliente {
         return clientes;
     }
 
-    public Cliente seleccionarCliente(int nit) {
+    public Cliente seleccionarCliente(String nit) {
         Cliente cliente = null;
         try {
 
             PreparedStatement ps = conexion.prepareStatement(seleccionarCliente);
-            ps.setInt(1, nit);
+            ps.setString(1, nit);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String nombre = rs.getString("Nombre_Cliente");

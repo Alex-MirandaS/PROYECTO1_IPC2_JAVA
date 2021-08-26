@@ -12,23 +12,23 @@ package CLASES;
  */
 public class EnsamblajePieza {
 
-    private String idEnsamblajePiezas;
+    private int idEnsamblajePiezas;
     private int cantidad;
-    private Pieza pieza;
+    private Tipo tipoPieza;
     private Mueble mueble;
 
-    public EnsamblajePieza(String idEnsamblajePiezas, int cantidad, Pieza pieza, Mueble mueble) {
+    public EnsamblajePieza(int idEnsamblajePiezas, int cantidad, Tipo tipoPieza, Mueble mueble) {
         this.idEnsamblajePiezas = idEnsamblajePiezas;
         this.cantidad = cantidad;
-        this.pieza = pieza;
+        this.tipoPieza = tipoPieza;
         this.mueble = mueble;
     }
 
-    public String getIdEnsamblajePiezas() {
+    public int getIdEnsamblajePiezas() {
         return idEnsamblajePiezas;
     }
 
-    public void setIdEnsamblajePiezas(String idEnsamblajePiezas) {
+    public void setIdEnsamblajePiezas(int idEnsamblajePiezas) {
         this.idEnsamblajePiezas = idEnsamblajePiezas;
     }
 
@@ -40,12 +40,12 @@ public class EnsamblajePieza {
         this.cantidad = cantidad;
     }
 
-    public Pieza getPieza() {
-        return pieza;
+    public Tipo getPieza() {
+        return tipoPieza;
     }
 
-    public void setPieza(Pieza pieza) {
-        this.pieza = pieza;
+    public void setPieza(Tipo pieza) {
+        this.tipoPieza = pieza;
     }
 
     public Mueble getMueble() {

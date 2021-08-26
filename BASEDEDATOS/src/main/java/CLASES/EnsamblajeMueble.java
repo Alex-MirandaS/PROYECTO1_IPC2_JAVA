@@ -14,14 +14,14 @@ import java.time.LocalDate;
  */
 public class EnsamblajeMueble {
 
-    private String idEnsamblajeMueble;
-    private Date fechaEnsamblaje;
+    private int idEnsamblajeMueble;
+    private LocalDate fechaEnsamblaje;
     private String ensamblador;
     private double costoEnsamblaje;
     private SalaVenta sala;
     private Mueble mueble;
 
-    public EnsamblajeMueble(String idEnsamblajeMueble, Date fechaEnsamblaje, String ensamblador, double costoEnsamblaje, SalaVenta sala, Mueble mueble) {
+    public EnsamblajeMueble(int idEnsamblajeMueble, LocalDate fechaEnsamblaje, String ensamblador, double costoEnsamblaje, SalaVenta sala, Mueble mueble) {
         this.idEnsamblajeMueble = idEnsamblajeMueble;
         this.fechaEnsamblaje = fechaEnsamblaje;
         this.ensamblador = ensamblador;
@@ -30,19 +30,19 @@ public class EnsamblajeMueble {
         this.mueble = mueble;
     }
 
-    public String getIdEnsamblajeMueble() {
+    public int getIdEnsamblajeMueble() {
         return idEnsamblajeMueble;
     }
 
-    public void setIdEnsamblajeMueble(String idEnsamblajeMueble) {
+    public void setIdEnsamblajeMueble(int idEnsamblajeMueble) {
         this.idEnsamblajeMueble = idEnsamblajeMueble;
     }
 
-    public Date getFechaEnsamblaje() {
+    public LocalDate getFechaEnsamblaje() {
         return fechaEnsamblaje;
     }
 
-    public void setFechaEnsamblaje(Date fechaEnsamblaje) {
+    public void setFechaEnsamblaje(LocalDate fechaEnsamblaje) {
         this.fechaEnsamblaje = fechaEnsamblaje;
     }
 

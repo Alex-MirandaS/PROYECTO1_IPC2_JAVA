@@ -27,6 +27,7 @@ public class ManagerMueble {
     private String insertarMueble = "INSERT INTO Mueble (Precio_Venta, Nombre_Mueble) VALUES(?,?)";
     private String borrarMueble = "DELETE FROM Mueble WHERE Id_Mueble = ?";
     private String seleccionarMueble = "SELECT * FROM Mueble WHERE Id_Mueble = ?";
+    private String seleccionarMuebleNombre = "SELECT * FROM Mueble WHERE Nombre_Mueble = ?";
     private String seleccionarTodo = "SELECT * FROM Mueble";
     private String updatePrecioVenta = "UPDATE Mueble SET Precio_Venta = ? WHERE Id_Mueble = ?";
     private String updateNombreMueble = "UPDATE Mueble SET Nombre_Mueble = ? WHERE Id_Mueble = ?";
@@ -105,6 +106,27 @@ public class ManagerMueble {
 
             PreparedStatement ps = conexion.prepareStatement(seleccionarMueble);
             ps.setInt(1, id_Mueble);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idMueble = rs.getInt("Id_Mueble");
+                double precioVenta = rs.getDouble("Precio_Venta");
+                String nombreMueble = rs.getString("Nombre_Mueble");
+                mueble = new Mueble(idMueble, precioVenta, nombreMueble);
+                break;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerMueble.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mueble;
+    }
+    
+    public Mueble seleccionarMuebleNombre(String nombre) {
+        Mueble mueble = null;
+        try {
+
+            PreparedStatement ps = conexion.prepareStatement(seleccionarMuebleNombre);
+            ps.setString(1, nombre);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idMueble = rs.getInt("Id_Mueble");

@@ -29,10 +29,12 @@ public class ManagerPieza {
     private String insertarPieza = "INSERT INTO Pieza (Costo_Unitario, Cantidad, Tipo_Pieza) VALUES(?,?,?)";
     private String borrarPieza = "DELETE FROM Pieza WHERE Id_Pieza = ?";
     private String seleccionarPieza = "SELECT * FROM Pieza WHERE Id_Pieza = ?";
+    private String seleccionarPiezaNombre = "SELECT * FROM Pieza WHERE Id_Pieza = ?";
     private String seleccionarTodo = "SELECT * FROM Pieza";
     private String updateCosto = "UPDATE Pieza SET Costo_Unitario = ? WHERE Id_Pieza = ?";
     private String updateCantidad = "UPDATE Pieza SET Cantidad = ? WHERE Id_Pieza = ?";
     private String updateTipoPieza = "UPDATE Pieza SET Tipo_Pieza = ? WHERE Id_Pieza = ?";
+    //Managers
     private ManagerTipoPieza managerTipoPieza = new ManagerTipoPieza();
 
     public ManagerPieza() {

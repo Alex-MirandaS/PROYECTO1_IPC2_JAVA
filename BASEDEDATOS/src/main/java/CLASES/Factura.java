@@ -11,21 +11,21 @@ package CLASES;
  */
 public class Factura {
 
-    private String idFactura;
+    private int idFactura;
     private double compraTotal;
     private Cliente cliente;
 
-    public Factura(String idFactura, double compraTotal, Cliente cliente) {
+    public Factura(int idFactura, double compraTotal, Cliente cliente) {
         this.idFactura = idFactura;
         this.compraTotal = compraTotal;
         this.cliente = cliente;
     }
 
-    public String getIdFactura() {
+    public int getIdFactura() {
         return idFactura;
     }
 
-    public void setIdFactura(String idFactura) {
+    public void setIdFactura(int idFactura) {
         this.idFactura = idFactura;
     }
 

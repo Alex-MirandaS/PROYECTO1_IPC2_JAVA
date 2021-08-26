@@ -12,10 +12,10 @@ package CLASES;
 public class Caja {
 
     public double valorCaja;
-    public String idCaja;
+    public int idCaja;
     public boolean estado;
 
-    public Caja(double valorCaja, String idCaja, boolean estado) {
+    public Caja(double valorCaja, int idCaja, boolean estado) {
         this.valorCaja = valorCaja;
         this.idCaja = idCaja;
         this.estado = estado;
@@ -29,11 +29,11 @@ public class Caja {
         this.valorCaja = valorCaja;
     }
 
-    public String getIdCaja() {
+    public int getIdCaja() {
         return idCaja;
     }
 
-    public void setIdCaja(String idCaja) {
+    public void setIdCaja(int idCaja) {
         this.idCaja = idCaja;
     }
 

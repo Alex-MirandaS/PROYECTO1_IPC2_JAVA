@@ -11,23 +11,23 @@ package CLASES;
  */
 public class SalaVenta {
 
-    private String idSalaVenta;
+    private int idSalaVenta;
     private String tipoMueble;
     private double precioMueble;
     private int existencias;
 
-    public SalaVenta(String idSalaVenta, String tipoMueble, double precioMueble, int existencias) {
+    public SalaVenta(int idSalaVenta, String tipoMueble, double precioMueble, int existencias) {
         this.idSalaVenta = idSalaVenta;
         this.tipoMueble = tipoMueble;
         this.precioMueble = precioMueble;
         this.existencias = existencias;
     }
 
-    public String getIdSalaVenta() {
+    public int getIdSalaVenta() {
         return idSalaVenta;
     }
 
-    public void setIdSalaVenta(String idSalaVenta) {
+    public void setIdSalaVenta(int idSalaVenta) {
         this.idSalaVenta = idSalaVenta;
     }
 
