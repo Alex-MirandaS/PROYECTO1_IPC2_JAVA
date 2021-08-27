@@ -12,7 +12,7 @@ package CLASES;
  */
 public class Tipo {
 
-    private int idTipoPieza;
+    private int idTipoPieza, cantidad;
     private String nombre;
 
     public Tipo(int idTipoPieza, String nombre) {
@@ -22,6 +22,10 @@ public class Tipo {
 
     public int getIdTipoPieza() {
         return idTipoPieza;
+    }
+
+    public void agregarCantidad(int cantidad) {
+        this.cantidad += cantidad;
     }
 
     public void setIdTipoPieza(int idTipoPieza) {

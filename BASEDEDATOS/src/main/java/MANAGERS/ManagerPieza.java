@@ -26,13 +26,12 @@ public class ManagerPieza {
     //Conexion
     private Connection conexion;
     // QUERYS   
-    private String insertarPieza = "INSERT INTO Pieza (Costo_Unitario, Cantidad, Tipo_Pieza) VALUES(?,?,?)";
+    private String insertarPieza = "INSERT INTO Pieza (Costo_Unitario, Tipo_Pieza) VALUES(?,?)";
     private String borrarPieza = "DELETE FROM Pieza WHERE Id_Pieza = ?";
     private String seleccionarPieza = "SELECT * FROM Pieza WHERE Id_Pieza = ?";
     private String seleccionarPiezaNombre = "SELECT * FROM Pieza WHERE Id_Pieza = ?";
     private String seleccionarTodo = "SELECT * FROM Pieza";
     private String updateCosto = "UPDATE Pieza SET Costo_Unitario = ? WHERE Id_Pieza = ?";
-    private String updateCantidad = "UPDATE Pieza SET Cantidad = ? WHERE Id_Pieza = ?";
     private String updateTipoPieza = "UPDATE Pieza SET Tipo_Pieza = ? WHERE Id_Pieza = ?";
     //Managers
     private ManagerTipoPieza managerTipoPieza = new ManagerTipoPieza();
@@ -41,12 +40,11 @@ public class ManagerPieza {
         this.conexion = Conexion.getConnection();
     }
 
-    public void insertarPieza(double costoUnitario, int cantidad, Tipo pieza) {
+    public void insertarPieza(double costoUnitario, Tipo pieza) {
 
         try {
             PreparedStatement ps = conexion.prepareStatement(insertarPieza);
             ps.setDouble(1, costoUnitario);
-            ps.setInt(2, cantidad);
             ps.setInt(3, pieza.getIdTipoPieza());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -76,11 +74,6 @@ public class ManagerPieza {
                     ps.setDouble(1, Double.parseDouble(datoCambiado));
                     ps.setInt(2, id_Pieza);
                     break;
-                case Cantidad:
-                    ps = conexion.prepareStatement(updateCantidad);
-                    ps.setInt(1, Integer.parseInt(datoCambiado));
-                    ps.setInt(2, id_Pieza);
-                    break;
                 case Tipo_Pieza:
                     ps = conexion.prepareStatement(updateTipoPieza);
                     ps.setInt(1, Integer.parseInt(datoCambiado));
@@ -101,9 +94,8 @@ public class ManagerPieza {
             while (rs.next()) {
                 int idPieza = rs.getInt("Id_Pieza");
                 double costo = rs.getDouble("Costo_Unitario");
-                int cantidad = rs.getInt("Cantidad");
                 int tipoPieza = rs.getInt("Tipo_Pieza");
-                Pieza pieza = new Pieza(costo, idPieza, cantidad, managerTipoPieza.seleccionarTipoPieza(tipoPieza));
+                Pieza pieza = new Pieza(costo, idPieza, managerTipoPieza.seleccionarTipoPieza(tipoPieza));
                 piezas.add(pieza);
             }
 
@@ -123,9 +115,8 @@ public class ManagerPieza {
             while (rs.next()) {
                 int idPieza = rs.getInt("Id_Pieza");
                 double costo = rs.getDouble("Costo_Unitario");
-                int cantidad = rs.getInt("Cantidad");
                 int tipoPieza = rs.getInt("Tipo_Pieza");
-                pieza = new Pieza(costo, idPieza, cantidad, managerTipoPieza.seleccionarTipoPieza(tipoPieza));
+                pieza = new Pieza(costo, idPieza, managerTipoPieza.seleccionarTipoPieza(tipoPieza));
                 break;
             }
         } catch (SQLException ex) {

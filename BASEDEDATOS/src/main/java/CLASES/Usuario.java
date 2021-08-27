@@ -14,9 +14,9 @@ public class Usuario {
 
     private String password;
     private String nombreUsuario;
-    private String tipo;
+    private int tipo;
 
-    public Usuario(String password, String nombreUsuario, String tipo) {
+    public Usuario(String password, String nombreUsuario, int tipo) {
         this.password = password;
         this.nombreUsuario = nombreUsuario;
         this.tipo = tipo;
@@ -38,11 +38,11 @@ public class Usuario {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public String getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
     

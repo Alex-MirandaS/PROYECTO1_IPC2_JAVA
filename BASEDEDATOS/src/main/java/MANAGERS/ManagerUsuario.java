@@ -5,10 +5,8 @@
  */
 package MANAGERS;
 
-import CLASES.Cliente;
 import CLASES.Usuario;
 import ClasesPredeterminadas.Conexion;
-import Enums.ClienteEnum;
 import Enums.UsuarioEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -82,7 +80,7 @@ public class ManagerUsuario {
                     break;
                 case Tipo:
                     ps = conexion.prepareStatement(updateContraseña);
-                    ps.setString(1, datoCambiado);
+                    ps.setInt(1, Integer.parseInt(datoCambiado));
                     ps.setInt(2, nit);
                     break;
             }
@@ -100,7 +98,7 @@ public class ManagerUsuario {
             while (rs.next()) {
                 String nombreUsuario = rs.getString("Nombre_Usuario");
                 String contraseña = rs.getString("Contraseña");
-                String tipo = rs.getString("Tipo");
+                int tipo = rs.getInt("Tipo");
                 usuarios.add(new Usuario(contraseña, nombreUsuario, tipo));
             }
 
@@ -120,7 +118,7 @@ public class ManagerUsuario {
             while (rs.next()) {
                  String nombreUsuario = rs.getString("Nombre_Usuario");
                 String contraseña = rs.getString("Contraseña");
-                String tipo = rs.getString("Tipo");
+                int tipo = rs.getInt("Tipo");
                 usuario = new Usuario(contraseña, nombreUsuario, tipo);
                 break;
             }

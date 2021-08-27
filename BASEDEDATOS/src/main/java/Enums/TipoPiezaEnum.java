@@ -9,6 +9,6 @@ package Enums;
  *
  * @author Alex
  */
-public enum ClienteEnum {
-    NIT, Direccion, Departamento, Municipio, Nombre_Cliente;
+public enum TipoPiezaEnum {
+    Nombre, Cantidad;
 }

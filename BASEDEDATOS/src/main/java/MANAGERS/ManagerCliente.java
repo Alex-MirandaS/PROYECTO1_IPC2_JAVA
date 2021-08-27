@@ -24,13 +24,15 @@ public class ManagerCliente {
 
     private Connection conexion;
     // QUERYS   
-    private String insertarCliente = "INSERT INTO Cliente (NIT, Direccion, Nombre_Cliente) VALUES(?,?,?)";
+    private String insertarCliente = "INSERT INTO Cliente (NIT, Direccion, Municipio, Departamento, Nombre_Cliente) VALUES(?,?,?,?,?)";
     private String borrarCliente = "DELETE FROM Cliente WHERE NIT = ?";
     private String seleccionarCliente = "SELECT * FROM Cliente WHERE NIT = ?";
     private String seleccionarTodo = "SELECT * FROM Cliente";
     private String updateNIT = "UPDATE Cliente SET NIT = ? WHERE NIT = ?";
     private String updateNombre = "UPDATE Cliente SET Nombre_Cliente = ? WHERE NIT = ?";
     private String updateDireccion = "UPDATE Cliente SET Direccion = ? WHERE NIT = ?";
+    private String updateMunicipio = "UPDATE Cliente SET Municipio = ? WHERE NIT = ?";
+    private String updateDepartamento = "UPDATE Cliente SET Departamento = ? WHERE NIT = ?";
 
     //UPDATE
 //request es la info de la pagina web que obtuvimos
@@ -49,6 +51,23 @@ public class ManagerCliente {
             ps.setInt(1, nit);
             ps.setString(3, nombre);
             ps.setString(2, direccion);
+            ps.setString(4, "Municipio");
+            ps.setString(5, "Departamento");
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void insertarClienteDM(int nit, String nombre, String direccion, String municipio, String departamento) {
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(insertarCliente);
+            ps.setInt(1, nit);
+            ps.setString(3, nombre);
+            ps.setString(2, direccion);
+            ps.setString(4, "Ciudad");
+            ps.setString(5, "Departamento");
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,6 +103,16 @@ public class ManagerCliente {
                     break;
                 case Direccion:
                     ps = conexion.prepareStatement(updateDireccion);
+                    ps.setString(1, datoCambiado);
+                    ps.setInt(2, nit);
+                    break;
+                case Municipio:
+                    ps = conexion.prepareStatement(updateMunicipio);
+                    ps.setString(1, datoCambiado);
+                    ps.setInt(2, nit);
+                    break;
+                case Departamento:
+                    ps = conexion.prepareStatement(updateDepartamento);
                     ps.setString(1, datoCambiado);
                     ps.setInt(2, nit);
                     break;

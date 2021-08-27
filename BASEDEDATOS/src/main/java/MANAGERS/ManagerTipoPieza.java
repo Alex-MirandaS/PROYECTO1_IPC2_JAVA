@@ -7,6 +7,7 @@ package MANAGERS;
 
 import CLASES.Tipo;
 import ClasesPredeterminadas.Conexion;
+import Enums.TipoPiezaEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,23 +24,25 @@ public class ManagerTipoPieza {
 
     private Connection conexion;
     // QUERYS   
-    private String insertarTipoPieza = "INSERT INTO Tipo (Nombre) VALUES(?)";
+    private String insertarTipoPieza = "INSERT INTO Tipo (Nombre, Cantidad) VALUES(?,?)";
     private String borrarTipoPieza = "DELETE FROM Tipo WHERE Id_Tipo_Pieza = ?";
     private String seleccionarTipoPieza = "SELECT * FROM Tipo WHERE Id_Tipo_Pieza = ?";
     private String seleccionarTipoPiezaNombre = "SELECT * FROM Tipo WHERE Nombre = ?";
     private String seleccionarTodo = "SELECT * FROM Tipo";
-    private String updateNombre = "UPDATE Cliente SET Nombre = ? WHERE Id_Tipo_Pieza = ?";
+    private String updateNombre = "UPDATE Tipo SET Nombre = ? WHERE Id_Tipo_Pieza = ?";
+    private String updateCantidad = "UPDATE Tipo SET Cantidad = ? WHERE Id_Pieza = ?";
 
     //C
     public ManagerTipoPieza() {
         this.conexion = Conexion.getConnection();
     }
 
-    public void insertarTipoPieza(String nombre) {
+    public void insertarTipoPieza(String nombre, int cantidad) {
 
         try {
             PreparedStatement ps = conexion.prepareStatement(insertarTipoPieza);
             ps.setString(1, nombre);
+            ps.setInt(2, cantidad);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,11 +60,22 @@ public class ManagerTipoPieza {
         }
     }
 
-    public void updateTipoPieza(String datoCambiado) {
+    public void updateTipoPieza(int idTipoPieza, String datoCambiado, TipoPiezaEnum tipoPieza) {
 
         try {
-            PreparedStatement ps = conexion.prepareStatement(updateNombre);
-            ps.setString(1, datoCambiado);
+            PreparedStatement ps = null;
+            switch (tipoPieza) {
+                case Nombre:
+                    ps = conexion.prepareStatement(updateNombre);
+                    ps.setString(1, datoCambiado);
+                    ps.setInt(2, idTipoPieza);
+                case Cantidad:
+                    ps = conexion.prepareStatement(updateCantidad);
+                    ps.setInt(1, Integer.parseInt(datoCambiado));
+                    ps.setInt(2, idTipoPieza);
+                    break;
+            }
+
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerCliente.class.getName()).log(Level.SEVERE, null, ex);

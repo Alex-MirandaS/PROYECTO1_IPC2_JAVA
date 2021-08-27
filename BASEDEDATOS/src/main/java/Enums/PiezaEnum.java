@@ -10,5 +10,5 @@ package Enums;
  * @author Alex
  */
 public enum PiezaEnum {
-    Costo_Unitario, Cantidad, Tipo_Pieza;
+    Costo_Unitario, Tipo_Pieza;
 }

@@ -14,13 +14,11 @@ public class Pieza {
 
     private double costoUnitario;
     private int idPieza;
-    private int cantidad;
     private Tipo tipo;
 
-    public Pieza(double costoUnitario, int idPieza, int cantidad, Tipo tipo) {
+    public Pieza(double costoUnitario, int idPieza, Tipo tipo) {
         this.costoUnitario = costoUnitario;
         this.idPieza = idPieza;
-        this.cantidad = cantidad;
         this.tipo = tipo;
     }
 
@@ -38,14 +36,6 @@ public class Pieza {
 
     public void setIdPieza(int idPieza) {
         this.idPieza = idPieza;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 
     public Tipo getTipo() {
