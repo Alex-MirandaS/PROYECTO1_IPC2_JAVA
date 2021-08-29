@@ -100,8 +100,9 @@ public class ManagerSalaVentas {
                 String tipoMueble = rs.getString("Tipo_Mueble");
                 double precioMueble = rs.getDouble("Precio_Mueble");
                 int existencias = rs.getInt("Existencias");
-
-                salaVentas.add(new SalaVenta(IdSalaVentas, tipoMueble, precioMueble, existencias));
+                SalaVenta sala = new SalaVenta(IdSalaVentas, tipoMueble, precioMueble);
+                sala.sumarExistencias(existencias);
+                salaVentas.add(sala);
             }
 
         } catch (SQLException ex) {
@@ -122,7 +123,8 @@ public class ManagerSalaVentas {
                 String tipoMueble = rs.getString("Tipo_Mueble");
                 double precioMueble = rs.getDouble("Precio_Mueble");
                 int existencias = rs.getInt("Existencias");
-                salaVenta = new SalaVenta(IdSalaVentas, tipoMueble, precioMueble, existencias);
+                SalaVenta sala = new SalaVenta(IdSalaVentas, tipoMueble, precioMueble);
+                sala.sumarExistencias(existencias);
                 break;
             }
 

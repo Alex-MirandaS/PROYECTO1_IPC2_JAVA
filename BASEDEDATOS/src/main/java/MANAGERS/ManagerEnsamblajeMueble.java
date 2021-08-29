@@ -6,6 +6,7 @@
 package MANAGERS;
 
 import CLASES.EnsamblajeMueble;
+import CLASES.Usuario;
 import ClasesPredeterminadas.Conexion;
 import Enums.EnsamblajeMuebleEnum;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,16 +43,17 @@ public class ManagerEnsamblajeMueble {
     //Managers
     ManagerSalaVentas managerSV = new ManagerSalaVentas();
     ManagerMueble managerMueble = new ManagerMueble();
+    ManagerUsuario managerUsuario = new ManagerUsuario();
 
     public ManagerEnsamblajeMueble() {
         this.conexion = Conexion.getConnection();
     }
 
-    public void insertarEnsamblajeMueble(Date fechaEnsamblaje, String ensamblador, double costoEnsamblaje, int tipoMueble, int salaVentas) {
+    public void insertarEnsamblajeMueble(LocalDate fechaEnsamblaje, String ensamblador, double costoEnsamblaje, int tipoMueble, int salaVentas) {
 
         try {
             PreparedStatement ps = conexion.prepareStatement(insertarEnsamMueble);
-            ps.setDate(1, fechaEnsamblaje);
+            ps.setDate(1, Date.valueOf(fechaEnsamblaje));
             ps.setString(2, ensamblador);
             ps.setDouble(3, costoEnsamblaje);
             ps.setInt(4, tipoMueble);
@@ -93,12 +96,12 @@ public class ManagerEnsamblajeMueble {
                     ps.setInt(1, Integer.parseInt(datoCambiado));
                     ps.setInt(2, idEnsamblajeMueble);
                     break;
-                    case TipoMueble:
+                case TipoMueble:
                     ps = conexion.prepareStatement(updateTipoMueble);
                     ps.setInt(1, Integer.parseInt(datoCambiado));
                     ps.setInt(2, idEnsamblajeMueble);
                     break;
-                    case SalaVentas:
+                case SalaVentas:
                     ps = conexion.prepareStatement(updateSalaVentas);
                     ps.setInt(1, Integer.parseInt(datoCambiado));
                     ps.setInt(2, idEnsamblajeMueble);
@@ -123,7 +126,7 @@ public class ManagerEnsamblajeMueble {
                 int tipoMueble = rs.getInt("Tipo_Mueble");
                 int salaVentas = rs.getInt("Sala_Ventas");
 
-                ensamblajeMueble.add(new EnsamblajeMueble(idEnsamblajeMueble, fechaEnsamblaje.toLocalDate(), ensamblador, costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(tipoMueble)));
+                ensamblajeMueble.add(new EnsamblajeMueble(idEnsamblajeMueble, fechaEnsamblaje.toLocalDate(), managerUsuario.seleccionarNombre(ensamblador), costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(tipoMueble)));
             }
 
         } catch (SQLException ex) {
@@ -132,12 +135,12 @@ public class ManagerEnsamblajeMueble {
         return ensamblajeMueble;
     }
 
-    public ArrayList<EnsamblajeMueble> seleccionarFechaEnsamblaje(int año, int mes, int dia) {
+    public ArrayList<EnsamblajeMueble> seleccionarFechaEnsamblaje(LocalDate fecha) {
         ArrayList<EnsamblajeMueble> ensamblajeMuebles = new ArrayList<>();
-        Date datefechaEnsamblaje = new Date(dia, mes, dia);
+        Date datefechaEnsamblaje = Date.valueOf(fecha);
         try {
             PreparedStatement ps = conexion.prepareStatement(seleccionarFechaEnsamblaje);
-            ps.setString(1, año + "-" + mes + "-" + dia);
+            ps.setDate(1, datefechaEnsamblaje);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -146,18 +149,21 @@ public class ManagerEnsamblajeMueble {
                 double costoEnsamblaje = rs.getDouble("Costo_Ensamblaje");
                 int tipoMueble = rs.getInt("Tipo_Mueble");
                 int salaVentas = rs.getInt("Sala_Ventas");
-                ensamblajeMuebles.add(new EnsamblajeMueble(idEnsamblajeMueble, datefechaEnsamblaje.toLocalDate(), ensamblador, costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(tipoMueble)));
+                ensamblajeMuebles.add(new EnsamblajeMueble(idEnsamblajeMueble, datefechaEnsamblaje.toLocalDate(), managerUsuario.seleccionarNombre(ensamblador), costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(tipoMueble)));
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerEnsamblajeMueble.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (NullPointerException ex) {
+           //hay error en el localdate
         }
         return ensamblajeMuebles;
     }
 
     public ArrayList<EnsamblajeMueble> seleccionarEnsamblador(String ensamblador) {
         ArrayList<EnsamblajeMueble> ensamblajeMueble = new ArrayList<>();
-
+        Usuario ensambladorDato = managerUsuario.seleccionarNombre(ensamblador);
         try {
             PreparedStatement ps = conexion.prepareStatement(seleccionarEnsamblador);
             ps.setString(1, ensamblador);
@@ -168,7 +174,7 @@ public class ManagerEnsamblajeMueble {
                 double costoEnsamblaje = rs.getDouble("Costo_Ensamblaje");
                 int tipoMueble = rs.getInt("Tipo_Mueble");
                 int salaVentas = rs.getInt("Sala_Ventas");
-                ensamblajeMueble.add(new EnsamblajeMueble(idEnsamblajeMueble, fechaEnsamblaje.toLocalDate(), ensamblador, costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(tipoMueble)));
+                ensamblajeMueble.add(new EnsamblajeMueble(idEnsamblajeMueble, fechaEnsamblaje.toLocalDate(), ensambladorDato, costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(tipoMueble)));
             }
 
         } catch (SQLException ex) {
@@ -190,7 +196,7 @@ public class ManagerEnsamblajeMueble {
                 double costoEnsamblaje = rs.getDouble("Costo_Ensamblaje");
                 String ensamblador = rs.getString("Ensamblador");
                 int salaVentas = rs.getInt("Sala_Ventas");
-                ensamblajeMueble.add(new EnsamblajeMueble(idEnsamblajeMueble, fechaEnsamblaje.toLocalDate(), ensamblador, costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(idTipoMueble)));
+                ensamblajeMueble.add(new EnsamblajeMueble(idEnsamblajeMueble, fechaEnsamblaje.toLocalDate(), managerUsuario.seleccionarNombre(ensamblador), costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(idTipoMueble)));
             }
 
         } catch (SQLException ex) {

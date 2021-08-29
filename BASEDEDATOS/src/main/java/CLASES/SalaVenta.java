@@ -16,11 +16,11 @@ public class SalaVenta {
     private double precioMueble;
     private int existencias;
 
-    public SalaVenta(int idSalaVenta, String tipoMueble, double precioMueble, int existencias) {
+    public SalaVenta(int idSalaVenta, String tipoMueble, double precio) {
         this.idSalaVenta = idSalaVenta;
+        this.existencias = 0;
         this.tipoMueble = tipoMueble;
-        this.precioMueble = precioMueble;
-        this.existencias = existencias;
+        this.precioMueble = precio;
     }
 
     public int getIdSalaVenta() {
@@ -53,6 +53,14 @@ public class SalaVenta {
 
     public void setExistencias(int existencias) {
         this.existencias = existencias;
+    }
+
+    public void sumarExistencias(int existencias) {
+        this.existencias += existencias;
+    }
+
+    public void restarExistencia(int existencias) {
+        this.existencias -= existencias;
     }
 
 }

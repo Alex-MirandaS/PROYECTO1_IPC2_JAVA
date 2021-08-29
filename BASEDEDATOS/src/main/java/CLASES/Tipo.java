@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package CLASES;
 
 /**
- * 
+ *
  * @author Alex
  */
 public class Tipo {
@@ -18,18 +17,27 @@ public class Tipo {
     public Tipo(int idTipoPieza, String nombre) {
         this.idTipoPieza = idTipoPieza;
         this.nombre = nombre;
+        this.cantidad = 1;
     }
 
     public int getIdTipoPieza() {
         return idTipoPieza;
     }
 
-    public void agregarCantidad(int cantidad) {
+    public void agregarUnidades(int cantidad) {
         this.cantidad += cantidad;
+    }
+
+    public void restarUnidades(int cantidad) {
+        this.cantidad -= cantidad;
     }
 
     public void setIdTipoPieza(int idTipoPieza) {
         this.idTipoPieza = idTipoPieza;
+    }
+
+    public int getCantidad() {
+        return cantidad;
     }
 
     public String getNombre() {
@@ -39,6 +47,5 @@ public class Tipo {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
+
 }

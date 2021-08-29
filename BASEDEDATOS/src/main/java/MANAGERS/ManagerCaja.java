@@ -6,11 +6,8 @@
 package MANAGERS;
 
 import CLASES.Caja;
-import CLASES.Cliente;
-import CLASES.Factura;
 import ClasesPredeterminadas.Conexion;
 import Enums.CajaEnum;
-import Enums.FacturaEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

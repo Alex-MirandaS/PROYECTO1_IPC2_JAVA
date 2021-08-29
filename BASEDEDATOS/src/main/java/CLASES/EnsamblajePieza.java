@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package CLASES;
 
 /**
- * 
+ *
  * @author Alex
  */
 public class EnsamblajePieza {
@@ -55,6 +54,5 @@ public class EnsamblajePieza {
     public void setMueble(Mueble mueble) {
         this.mueble = mueble;
     }
-    
-    
+
 }
