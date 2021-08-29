@@ -135,6 +135,27 @@ public class ManagerEnsamblajeMueble {
         return ensamblajeMueble;
     }
 
+    public EnsamblajeMueble seleccionarMuebleEnsamblado(int idMuebleEnsamblado) {
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(seleccionarMueble);
+            ps.setInt(1, idMuebleEnsamblado);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Date fechaEnsamblaje = rs.getDate("Fecha_Ensamblaje");
+                double costoEnsamblaje = rs.getDouble("Costo_Ensamblaje");
+                String ensamblador = rs.getString("Ensamblador");
+                int tipoMueble = rs.getInt("Tipo_Mueble");
+                int salaVentas = rs.getInt("Sala_Ventas");
+                return new EnsamblajeMueble(idMuebleEnsamblado, fechaEnsamblaje.toLocalDate(), managerUsuario.seleccionarNombre(ensamblador), costoEnsamblaje, managerSV.seleccionarSalaVentas(salaVentas), managerMueble.seleccionarMueble(tipoMueble));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerEnsamblajeMueble.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public ArrayList<EnsamblajeMueble> seleccionarFechaEnsamblaje(LocalDate fecha) {
         ArrayList<EnsamblajeMueble> ensamblajeMuebles = new ArrayList<>();
         Date datefechaEnsamblaje = Date.valueOf(fecha);
@@ -154,9 +175,8 @@ public class ManagerEnsamblajeMueble {
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerEnsamblajeMueble.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (NullPointerException ex) {
-           //hay error en el localdate
+        } catch (NullPointerException ex) {
+            //hay error en el localdate
         }
         return ensamblajeMuebles;
     }

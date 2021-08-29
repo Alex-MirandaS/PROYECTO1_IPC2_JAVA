@@ -14,15 +14,15 @@ import java.time.LocalDate;
  */
 public class Venta {
 
-    public String idVenta;
-    public Date fechaVenta;
+    public int idVenta;
+    public LocalDate fechaVenta;
     public double precioMuebleVendido;
     public Cliente cliente;
     public Caja caja;
     public Factura factura;
     public SalaVenta salaVenta;
 
-    public Venta(String idVenta, Date fechaVenta, double precioMuebleVendido, Cliente cliente, Caja caja, Factura factura, SalaVenta salaVenta) {
+    public Venta(int idVenta, LocalDate fechaVenta, double precioMuebleVendido, Cliente cliente, Caja caja, Factura factura, SalaVenta salaVenta, EnsamblajeMueble muebleEnsamblado) {
         this.idVenta = idVenta;
         this.fechaVenta = fechaVenta;
         this.precioMuebleVendido = precioMuebleVendido;
@@ -32,19 +32,19 @@ public class Venta {
         this.salaVenta = salaVenta;
     }
 
-    public String getIdVenta() {
+    public int getIdVenta() {
         return idVenta;
     }
 
-    public void setIdVenta(String idVenta) {
+    public void setIdVenta(int idVenta) {
         this.idVenta = idVenta;
     }
 
-    public Date getFechaVenta() {
+    public LocalDate getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(Date fechaVenta) {
+    public void setFechaVenta(LocalDate fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 
